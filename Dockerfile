@@ -36,7 +36,7 @@ FROM python:${PYTHON_VERSION}-slim-buster AS runtime
 
 RUN useradd -ms /bin/sh doccano
 
-RUN mkdir /data \
+RUN mkdir -p /data \
  && chown doccano:doccano /data
 
 COPY --from=backend-builder /deps /deps
