@@ -53,12 +53,12 @@ RUN python app/manage.py collectstatic --noinput
 VOLUME /data
 ENV DATABASE_URL="sqlite:////data/doccano.db"
 
-ENV DEBUG="True"
-ENV SECRET_KEY="change-me-in-production"
-ENV PORT="8000"
-ENV WORKERS="2"
-ENV GOOGLE_TRACKING_ID=""
-ENV AZURE_APPINSIGHTS_IKEY=""
+ENV DEBUG "True"
+ENV SECRET_KEY "change-me-in-production"
+ENV PORT 8000
+ENV WORKERS 2
+ENV GOOGLE_TRACKING_ID ""
+ENV AZURE_APPINSIGHTS_IKEY ""
 
 USER doccano
 WORKDIR /doccano
