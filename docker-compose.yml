@@ -1,0 +1,59 @@
+version: "3.7"
+services:
+
+  backend:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: app/Dockerfile.prod
+    volumes:
+      - static_volume3:/app/staticfiles
+    environment:
+      ADMIN_USERNAME: "allanbatista"
+      ADMIN_PASSWORD: "AyXV9cxAf3w"
+      ADMIN_EMAIL: "allan@allanbatista.com.br"
+      DATABASE_URL: "postgres://doccano:doccano@postgres:5432/doccano?sslmode=disable"
+      ALLOW_SIGNUP: "False"
+      DEBUG: "True"
+    depends_on:
+      - postgres
+    networks:
+      - network-backend
+      - network-frontend
+
+  nginx:
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: nginx/Dockerfile
+    environment:
+      API_URL: "http://backend:8000"
+      GOOGLE_TRACKING_ID: ""
+    volumes:
+      - static_volume3:/static
+    ports:
+      - 80:80
+    depends_on:
+      - backend
+    networks:
+      - network-frontend
+
+  postgres:
+    restart: unless-stopped
+    image: postgres:13.1-alpine
+    volumes:
+      - postgres_data3:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: "doccano"
+      POSTGRES_PASSWORD: "doccano"
+      POSTGRES_DB: "doccano"
+    networks:
+      - network-backend
+
+volumes:
+  postgres_data3:
+  static_volume3:
+
+networks:
+  network-backend:
+  network-frontend:
